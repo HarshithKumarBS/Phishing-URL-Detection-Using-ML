@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Phishing Detection</title>
+</head>
+
+<body style="
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #e0e7ff, #f8fafc);
+">
+
+<div id="card" style="
+    width: 420px;
+    margin: 100px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    text-align: center;
+">
+
+    <h2 style="margin-bottom: 5px;">Phishing Detection</h2>
+    <p style="color:#555;font-size:14px;">
+        Check whether a website is safe or phishing
+    </p>
+
+    <input id="urlInput" type="text"
+           placeholder="https://example.com"
+           style="
+               width:90%;
+               padding:10px;
+               font-size:14px;
+               border-radius:6px;
+               border:1px solid #aaa;
+           ">
+
+    <div style="margin-top:20px;">
+        <button onclick="checkURL()"
+                style="
+                    background:#2563eb;
+                    color:white;
+                    padding:10px 28px;
+                    font-size:15px;
+                    border:none;
+                    border-radius:6px;
+                    cursor:pointer;
+                ">
+            Check URL
+        </button>
+    </div>
+
+    <div style="margin-top:10px;">
+        <button onclick="fillExample()"
+                style="
+                    background:#6b7280;
+                    color:white;
+                    padding:7px 22px;
+                    font-size:13px;
+                    border:none;
+                    border-radius:6px;
+                    cursor:pointer;
+                ">
+            Try Example
+        </button>
+    </div>
+
+    <h3 id="result" style="margin-top:20px;"></h3>
+    <p id="reason" style="font-size:13px;"></p>
+
+    <p style="font-size:11px;color:#999;margin-top:18px;">
+        Project – Phishing Detection | CSD 
+    </p>
+
+</div>
+
+<script>
+function fillExample() {
+    document.getElementById("urlInput").value =
+        "http://secure-login-verify.com";
+}
+
+function generateReason(url) {
+    let reasons = [];
+
+    if (!url.startsWith("https://"))
+        reasons.push("Website does not use HTTPS");
+
+    if (url.length > 60)
+        reasons.push("URL length is unusually long");
+
+    if (url.includes("@"))
+        reasons.push("URL contains '@' symbol");
+
+    if (
+        url.includes("login") ||
+        url.includes("verify") ||
+        url.includes("secure")
+    )
+        reasons.push("Suspicious keywords found in URL");
+
+    if (reasons.length === 0)
+        return "No suspicious patterns found";
+
+    return reasons.join(", ");
+}
+
+function checkURL() {
+    const url = document.getElementById("urlInput").value;
+    const result = document.getElementById("result");
+    const reason = document.getElementById("reason");
+    const card = document.getElementById("card");
+
+    result.innerText = "Checking...";
+    result.style.color = "#111827";
+    reason.innerText = "";
+    card.style.border = "2px solid #ddd";
+
+    fetch("http://localhost:5000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: url })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.prediction === "phishing") {
+            result.innerText = "PHISHING WEBSITE 🚨";
+            result.style.color = "#dc2626";
+            card.style.border = "2px solid #dc2626";
+            reason.innerText = "Reason: " + generateReason(url);
+            reason.style.color = "#dc2626";
+        } else {
+            result.innerText = "LEGITIMATE WEBSITE ✅";
+            result.style.color = "#16a34a";
+            card.style.border = "2px solid #16a34a";
+            reason.innerText = "Reason: URL structure looks safe";
+            reason.style.color = "#16a34a";
+        }
+    })
+    .catch(() => {
+        result.innerText = "Server error ❌";
+        result.style.color = "red";
+    });
+}
+</script>
+
+</body>
+</html>

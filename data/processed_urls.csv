@@ -1,0 +1,9 @@
+url_length,has_https,has_ip,count_dots,count_hyphen,count_at,suspicious_words,label
+22,1,0,2,0,0,0,legitimate
+21,1,0,2,0,0,0,legitimate
+25,1,0,2,0,0,0,legitimate
+30,0,0,1,2,0,3,phishing
+30,0,0,1,2,0,2,phishing
+25,0,1,3,0,0,1,phishing
+29,0,0,1,3,0,0,phishing
+25,1,0,2,0,0,0,legitimate

@@ -1,0 +1,9 @@
+url,label
+https://www.google.com,legitimate
+https://www.amazon.in,legitimate
+https://www.microsoft.com,legitimate
+http://secure-login-verify.com,phishing
+http://bank-update-account.net,phishing
+http://192.168.1.10/login,phishing
+http://free-gift-card-now.com,phishing
+https://www.wikipedia.org,legitimate
