@@ -133,12 +133,9 @@ Scripts are organized in src/ for easy maintenance
 .gitignore prevents unnecessary files from being pushed
 
 
-👤 Author
+👤 Authors
 
 Nikesh Babu S
 
-B.E Computer Science and Design
+Harshith Kumar B S
 
-GitHub: https://github.com/Nikesh-dev-06
-
-Email: nikes.dev.06@gmail.com
